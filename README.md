@@ -29,3 +29,10 @@ make build-mac      # Build for macOS (amd64)
 make all            # Build all platforms
 make clean          # Remove all binaries
 ```
+
+## Usage with cron
+To run the application periodically, you can set up a cron job. For example, to run the application every 15m, add the following line to your crontab:
+
+```bash
+*/15 * * * * /absolute/path/to/binary/disk-alert-linux-amd64 >> /dev/null 2>&1
+```
