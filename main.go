@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strconv"
 	"syscall"
 
@@ -64,8 +65,20 @@ func sendMailgunAlert(domain, apiKey, recipient, hostname, ip string, usage int)
 	return nil
 }
 
+func getEnvPath() string {
+	exePath, err := os.Executable()
+	if err != nil {
+		log.Fatalf("Failed to get executable path: %v", err)
+	}
+	exeDir := filepath.Dir(exePath)
+	envPath := filepath.Join(exeDir, ".env")
+
+	return envPath
+}
+
 func main() {
-	_ = godotenv.Load()
+	_ = godotenv.Load(getEnvPath())
+
 	mailgunDomain := os.Getenv("MAILGUN_DOMAIN")
 	mailgunAPIKey := os.Getenv("MAILGUN_API_KEY")
 	mountPoint := os.Getenv("MOUNT_POINT")
